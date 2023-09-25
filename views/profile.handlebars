@@ -1,0 +1,33 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/src/public/css/products.css" />
+
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="user-data">
+                <h1>Bienvenido, {{user.first_name}} {{user.last_name}}</h1>
+                <p>Tu correo electrónico es: {{user.email}}</p>
+                <p>Tu rol es: {{user.role}}</p>
+                <a href="/products">
+                    <button class="btn btn-primary" id="btn-productos">Productos</button>
+                </a>
+            </div>
+        </div>
+        <a href="/restore">
+            <button class="btn btn-danger" id="cambiar-clave">Cambiar clave</button>
+        </a>
+        <form action="/api/sessions/logout" method="POST">
+            <button type="submit" class="btn-logout">Cerrar Sesión</button>
+        </form>
+    </div>
+
+</body>
+
+</html>

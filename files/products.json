@@ -1,0 +1,101 @@
+[
+  {
+    "title": "DIGITAL SERIE 5000",
+    "description": "Este es el producto 1",
+    "price": 1000,
+    "thumbnail": "https://www.casio.com/content/dam/casio/product-info/locales/latin/es-ar/timepiece/product/watch/D/DW/DW5/dw-5040rx-7/assets/DW-5040RX-7.png.transform/main-visual-pc/image.png",
+    "code": "P1",
+    "stock": 100,
+    "id": 1,
+    "status": true,
+    "category": "Hombre"
+  },
+  {
+    "title": "DIGITAL MUJERES 5600",
+    "description": "Este es el producto 2",
+    "price": 2000,
+    "thumbnail": "https://www.casio.com/content/dam/casio/product-info/locales/latin/es-ar/timepiece/product/watch/G/GM/GMD/gmd-s5600ba-3/assets/GMD-S5600BA-3.png.transform/main-visual-pc/image.png",
+    "code": "P2",
+    "stock": 200,
+    "id": 2,
+    "status": true,
+    "category": "Mujer"
+  },
+  {
+    "title": "DIGITAL MUJERES 5600 A",
+    "description": "Este es el producto 3",
+    "price": 1000,
+    "thumbnail": "https://www.casio.com/content/dam/casio/product-info/locales/latin/es-ar/timepiece/product/watch/G/GM/GMD/gmd-s5600ba-4/assets/GMD-S5600BA-4.png.transform/main-visual-pc/image.png",
+    "code": "P3",
+    "stock": 200,
+    "id": 3,
+    "status": true,
+    "category": "Tratamientos"
+  },
+  {
+    "title": "DIGITAL MUJERES 5600 B",
+    "description": "Este es el producto 4",
+    "price": 1000,
+    "thumbnail": "https://www.casio.com/content/dam/casio/product-info/locales/latin/es-ar/timepiece/product/watch/G/GM/GMD/gmd-s5600ba-6/assets/GMD-S5600BA-6.png.transform/main-visual-pc/image.png",
+    "code": "P1",
+    "stock": 220,
+    "id": 4,
+    "status": true,
+    "category": "Tratamientos"
+  },
+  {
+    "title": "DIGITAL SERIE 5600",
+    "description": "Este es el producto 5",
+    "price": 5000,
+    "thumbnail": "https://www.casio.com/content/dam/casio/product-info/locales/latin/es-ar/timepiece/product/watch/D/DW/dwb/dw-b5600sf-7/assets/DW-B5600SF-7.png.transform/main-visual-pc/image.png",
+    "code": "P5",
+    "stock": 205,
+    "id": 5,
+    "status": true,
+    "category": "Tratamientos"
+  },
+  {
+    "title": "DIGITAL SERIE 6900",
+    "description": "Este es el producto 6",
+    "price": 6000,
+    "thumbnail": "https://www.casio.com/content/dam/casio/product-info/locales/latin/es-ar/timepiece/product/watch/D/DW/DW6/dw-6940rx-7/assets/DW-6940RX-7.png.transform/main-visual-pc/image.png",
+    "code": "P6",
+    "stock": 2066,
+    "id": 6,
+    "status": true,
+    "category": "Tratamientos"
+  },
+  {
+    "title": "MASTER OF G TIERRA MUDMAN 2",
+    "description": "Este es el producto 7",
+    "price": 7000,
+    "thumbnail": "https://www.casio.com/content/dam/casio/product-info/locales/latin/es-ar/timepiece/product/watch/G/GW/GW9/gw-9500-1/assets/GW-9500-1.png.transform/main-visual-pc/image.png",
+    "code": "P7",
+    "stock": 2077,
+    "id": 7,
+    "status": true,
+    "category": "Tratamientos"
+  },
+  {
+    "title": "MASTER OF G TIERRA MUDMAN 1",
+    "description": "Este es el producto 8",
+    "price": 8000,
+    "thumbnail": "https://www.casio.com/content/dam/casio/product-info/locales/latin/es-ar/timepiece/product/watch/G/GW/GW9/gw-9500-1a4/assets/GW-9500-1A4.png.transform/main-visual-pc/image.png",
+    "code": "P8",
+    "stock": 2088,
+    "id": 8,
+    "status": true,
+    "category": "Tratamientos"
+  },
+  {
+    "id": 9,
+    "title": "MASTER OF G TIERRA MUDMAN",
+    "description": "Este es el producto 9",
+    "price": "9900",
+    "thumbnail": "https://www.casio.com/content/dam/casio/product-info/locales/latin/es-ar/timepiece/product/watch/G/GW/GW9/gw-9500-3/assets/GW-9500-3.png.transform/main-visual-pc/image.png",
+    "category": "999",
+    "status": true,
+    "code": "9",
+    "stock": "900"
+  }
+]

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/src/public/css/products.css">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+
+</html>
+
+<div class="text-center">
+    <p style="font-size: 24px">Bienvenido</p>
+    <p>{{user.role}} {{user.first_name}} {{user.last_name}}</p>
+    <form action="/profile" method="GET">
+        <button type="submit" class="btn btn-primary">Profile</button>
+    </form>
+    <form action="/api/sessions/logout" method="POST">
+        <button type="submit" class="btn btn-primary">Logout</button>
+    </form>
+</div>
+<a href="/cart">cart</a>
+<div class="container">
+    <div class="row">
+        {{#each products.payload}}
+        <div class="col-md-4">
+            <div class="card border-0 mb-3">
+                <a href="/products/{{this._id}}" class="text-decoration-none">
+                    <img src="{{this.thumbnails}}" class="img-fluid" alt="{{this.title}}">
+                </a>
+                <div class="card-body text-center">
+                    <p class="card-text text-dark">{{this.title}}<br><span>${{this.price}}</span></p>
+                    <p class="agregar"><button onclick="agregarProductoAlCarrito('{{this._id}}')">Agregar</button></p>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+    <div class="row my-5">
+        <div class="col">
+            <nav>
+                <ul class="pagination justify-content-center">
+                    {{#if products.hasPrevPage}}
+                        <li class="page-item">
+                            <a class="page-link" href="{{products.prevLink}}"><<</a>
+                        </li>
+                    {{/if}}
+                    {{#if products.hasPrevPage}}
+                    <li class="page-item">
+                        <a class="page-link" href="{{products.prevLink}}">{{products.prevPage}}</a>
+                    </li>
+                    {{/if}}
+                    <li class="page-item">
+                        <a class="page-link">{{products.page}}</a>
+                    </li>
+                    {{#if products.hasNextPage}}
+                    <li class="page-item">
+                        <a class="page-link" href="{{products.nextLink}}">{{products.nextPage}}</a>
+                    </li>
+                    {{/if}}
+                    {{#if products.hasNextPage}}
+                    <li class="page-item">
+                        <a class="page-link" href="{{products.nextLink}}">>></a>
+                    </li>
+                    {{/if}}
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<script src="/src/public/cart.js"></script>
+
+</body>
+</html> 
