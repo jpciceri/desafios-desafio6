@@ -5,3 +5,16 @@
     width: 150px;
     height: 40px;
 }
+body {
+    background-color:rgb(158, 153, 145)
+}
+#btn-profile {
+    margin-bottom: 10px;
+}
+#btn-productos {
+    margin-bottom: 10px;
+}
+
+#cambiar-clave {
+    margin-bottom: 10px;
+}

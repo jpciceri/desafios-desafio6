@@ -16,10 +16,11 @@ import MongoStore from "connect-mongo";
 import passport from "passport";
 import initializePassport from "./src/config/passport.config.js";
 import cookieParser from "cookie-parser";
+import { MONGO_URL, SECRET_KEY_SESSION, PORT } from "./src/config/config.js";
 
 
 const app = express();
-const port = 8080;
+const port = process.env.PORT || 8080;
 
 const httpServer = app.listen(port, () => {
   console.log("Servidor escuchando en puerto " + port);
@@ -41,14 +42,22 @@ app.use(express.static(__dirname));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(session({
-  secret: 'M5E7',
+  secret: process.env.SECRET_KEY_SESSION,
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: { secure: false },
-  store: MongoStore.create({ 
-    mongoUrl: "mongodb+srv://juanpc87:juan123@codercluster.xxnkdzq.mongodb.net/ecommerce?retryWrites=true&w=majority",
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGO_URL,
     mongoOptions:{useNewUrlParser:true, useUnifiedTopology:true},
-    collectionName: 'sessions'
+    collectionName: "sessions",
+  // secret: 'M5E7',
+  // resave: false,
+  // saveUninitialized: true,
+  // cookie: { secure: false },
+  // store: MongoStore.create({ 
+  //   mongoUrl: "mongodb+srv://juanpc87:juan123@codercluster.xxnkdzq.mongodb.net/ecommerce?retryWrites=true&w=majority",
+  //   mongoOptions:{useNewUrlParser:true, useUnifiedTopology:true},
+  //   collectionName: 'sessions'
   })
 }));
 app.use(cookieParser());
@@ -64,9 +73,9 @@ app.use("/", viewsRouter);
 
 const PM = new ProductManager();
 
+mongoose.connect(process.env.MONGO_URL);
 
-
-mongoose.connect("mongodb+srv://juanpc87:juan123@codercluster.xxnkdzq.mongodb.net/ecommerce?retryWrites=true&w=majority")
+// mongoose.connect("mongodb+srv://juanpc87:juan123@codercluster.xxnkdzq.mongodb.net/ecommerce?retryWrites=true&w=majority")
 
 
 mongoose.connection.on("connected", () => {

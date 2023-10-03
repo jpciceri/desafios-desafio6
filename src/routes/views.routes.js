@@ -82,12 +82,15 @@ router.get("/profile", checkSession, (req, res) => {
   res.render("profile", { user: userData });
 });
 
-router.get("/restore", checkSession, (req, res) => {
+router.get("/restore", checkSession,async (req, res) => {
   res.render("restore");;
 });
 
-router.get("/faillogin", async (req, res) => {
-  res.send({status:"error", message:"Login inválido!"});
+router.get("/faillogin", (req, res) => {
+  res.status(401).json({
+    status: "error",
+    message: "Login failed. Invalid username or password.",
+  });
 });
 
 router.get("/failregister", async (req, res) => {
