@@ -50,15 +50,7 @@ app.use(session({
     mongoUrl: process.env.MONGO_URL,
     mongoOptions:{useNewUrlParser:true, useUnifiedTopology:true},
     collectionName: "sessions",
-  // secret: 'M5E7',
-  // resave: false,
-  // saveUninitialized: true,
-  // cookie: { secure: false },
-  // store: MongoStore.create({ 
-  //   mongoUrl: "mongodb+srv://juanpc87:juan123@codercluster.xxnkdzq.mongodb.net/ecommerce?retryWrites=true&w=majority",
-  //   mongoOptions:{useNewUrlParser:true, useUnifiedTopology:true},
-  //   collectionName: 'sessions'
-  })
+})
 }));
 app.use(cookieParser());
 
@@ -75,7 +67,6 @@ const PM = new ProductManager();
 
 mongoose.connect(process.env.MONGO_URL);
 
-// mongoose.connect("mongodb+srv://juanpc87:juan123@codercluster.xxnkdzq.mongodb.net/ecommerce?retryWrites=true&w=majority")
 
 
 mongoose.connection.on("connected", () => {
