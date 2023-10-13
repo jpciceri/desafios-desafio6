@@ -8,7 +8,13 @@ import {
 } from "../../utils.js";
 import GitHubStrategy from "passport-github2";
 import AuthService from "../services/authService.js";
-import { JWT_SECRET, CLIENT_ID_GITHUB, CLIENT_SECRET_GITHUB, ADMIN_EMAIL, ADMIN_PASSWORD } from "../config/config.js";
+import {
+    JWT_SECRET,
+    CLIENT_ID_GITHUB,
+    CLIENT_SECRET_GITHUB,
+    ADMIN_EMAIL,
+    ADMIN_PASSWORD
+} from "../config/config.js";
 
 
 const JWTStrategy = jwt.Strategy;
@@ -170,8 +176,10 @@ const cookieExtractor = (req) => {
     let token = null;
 
     if (req && req.cookies) {
+        console.log("Cookies:", req.cookies);
         token = req.cookies["coderCookieToken"];
     }
 
+    console.log("Token Extracted:", token);
     return token;
 };

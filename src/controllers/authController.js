@@ -13,14 +13,16 @@ class AuthController {
     if (!userData || !userData.user) { 
       return res.status(401).json({ status: "error", message: "Invalid credentials" });
     }
-  
+    if (userData && userData.user) {
     req.session.user = {
-      id: userData.user._id,  
+      id: userData.user._id || userData.user._id, 
       email: userData.user.email,
-      first_name: userData.user.first_name,
-      last_name: userData.user.last_name,
+      first_name: userData.user.first_name || userData.user.first_name, 
+      last_name: userData.user.last_name || userData.user.last_name, 
+      age: userData.user.age,
       role: userData.user.role,
     };
+    }
 
     res.cookie('coderCookieToken', userData.token, { httpOnly: true, secure: false });
   

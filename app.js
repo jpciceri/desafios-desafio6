@@ -17,7 +17,8 @@ import passport from "passport";
 import initializePassport from "./src/config/passport.config.js";
 import cookieParser from "cookie-parser";
 import { MONGO_URL, SECRET_KEY_SESSION, PORT } from "./src/config/config.js";
-
+import cors from "cors"
+import emailRouter from "./src/routes/email.routes.js";
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -38,13 +39,19 @@ app.engine(
 app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
 app.use(express.static(__dirname));
+app.use(
+  cors({
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"], 
+  })
+);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(session({
   secret: process.env.SECRET_KEY_SESSION,
   resave: false,
-  saveUninitialized: false,
+  saveUninitialized: true,
   cookie: { secure: false },
   store: MongoStore.create({
     mongoUrl: process.env.MONGO_URL,
@@ -62,6 +69,7 @@ app.use("/api/products/", productsRouter);
 app.use("/api/carts/", cartsRouter);
 app.use("/api/sessions/", sessionsRouter);
 app.use("/", viewsRouter);
+app.use('/email', emailRouter);
 
 const PM = new ProductManager();
 
