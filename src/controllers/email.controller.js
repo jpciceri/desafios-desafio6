@@ -1,23 +1,91 @@
-import Email from "../dao/models/email.model.js";
-import EmailService from "../services/emailService.js";
+import nodemailer from "nodemailer";
+import { EMAIL_PASS, EMAIL_USER } from "../config/config.js"
 
-class EmailController {
-  constructor() {
-    this.emailService = new EmailService();
-    this.email = new Email();
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  port: 587,
+  auth: {
+    user: EMAIL_USER,
+    pass: EMAIL_PASS,
+  },
+});
+
+transporter.verify(function (error, success) {
+  if (error) {
+    console.log(error);
+  } else {
+    console.log("Server is ready to take our messages");
   }
-  async sendEmail(req, res) {
-    const { to, subject, text } = req.body;
-    const email = new Email(to, subject, text);
+});
 
-    try {
-      await emailService.sendEmail(email);
-      res.status(200).send("Email enviado exitosamente");
-    } catch (error) {
-      res.status(500).send("Hubo un error al enviar el email");
-      console.error(error);
-    }
+const mailOptions = {
+  from: "Coder Test " + EMAIL_USER,
+  to: EMAIL_USER,
+  subject: "Correo de prueba Coderhouse Programacion Backend.",
+  html: "<div><h1>Esto es un Test de envio de correos con Nodemailer!</h1></div>",
+  attachments: [],
+};
+
+const mailOptionsWithAttachments = {
+  from: "Coder Test " + EMAIL_USER,
+  to: EMAIL_USER,
+  subject: "Correo de prueba Coderhouse Programacion Backend.",
+  html: `<div>
+              <h1>Esto es un Test de envio de correos con Nodemailer!</h1>
+              <p>Ahora usando imagenes: </p>
+              <img src="cid:meme"/>
+          </div>`,
+  attachments: [
+    {
+      filename: "Meme de Programacion",
+      // path: __dirname + "/public/images/meme.png",
+      cid: "meme",
+    },
+  ],
+};
+
+export const sendEmail = (req, res) => {
+  try {
+    let result = transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log(error);
+        res.status(400).send({ message: "Error", payload: error });
+      }
+      console.log("Message sent: %s", info.messageId);
+      res.send({ message: "Success!", payload: info });
+    });
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .send({
+        error: error,
+        message: "No se pudo enviar el email desde:" + config.gmailAccount,
+      });
   }
-}
+};
 
-export default  EmailController;
+export const sendEmailWithAttachments = (req, res) => {
+  try {
+    let result = transporter.sendMail(
+      mailOptionsWithAttachments,
+      (error, info) => {
+        if (error) {
+          console.log(error);
+          res.status(400).send({ message: "Error", payload: error });
+        }
+        console.log("Message sent: %s", info.messageId);
+        res.send({ message: "Success!", payload: info });
+      }
+    );
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .send({
+        error: error,
+        message: "No se pudo enviar el email desde:" + config.gmailAccount,
+      });
+  }
+};
+

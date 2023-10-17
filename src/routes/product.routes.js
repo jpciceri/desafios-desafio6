@@ -3,6 +3,7 @@ import ProductManager from "../dao/ProductManager.js";
 import { socketServer } from "../../app.js";
 import ProductService from "../services/productService.js";
 import productController from "../controllers/productControllers.js";
+import {authorization, passportCall} from "../../utils.js";
 
 const productsRouter = Router();
 const PM = new ProductManager();
@@ -13,10 +14,9 @@ productsRouter.get(
   "/:pid",
   productController.getProductById.bind(productController)
 );
-productsRouter.post("/", productController.addProduct.bind(productController));
-
-productsRouter.put('/:pid', productController.updateProduct.bind(productController));
-productsRouter.delete('/:pid', productController.deleteProduct.bind(productController));
+productsRouter.post('/', passportCall('jwt'), authorization(['admin']), productController.addProduct.bind(productController));
+productsRouter.put('/:pid',passportCall('jwt'), authorization(['admin']), productController.updateProduct.bind(productController));
+productsRouter.delete('/:pid',passportCall('jwt'), authorization(['admin']), productController.deleteProduct.bind(productController));
 
 export default productsRouter;
 

@@ -2,7 +2,7 @@ import CartService from "../services/cartServices.js";
 import ProductManager from "../dao/ProductManager.js";
 import ticketController from "./ticketController.js";
 import { v4 as uuidv4 } from "uuid"
-
+import { cartModel } from "../dao/models/cart.model.js";
 
 class CartController {
   constructor() {
@@ -100,45 +100,59 @@ class CartController {
     console.log("Ruta /carts/:cid/purchase accedida");
 
     try {
-      console.log("req.user:", req.user);
       if (!req.user || !req.user.id) {
         console.error("req.user no está definido");
         return res.status(400).json({ error: "Usuario no definido" });
       }
+
       const cart = await this.cartService.getCart(req.params.cid);
 
+      if (!cart) {
+        return res.status(404).json({ error: "Carrito no encontrado" });
+      }
+
+      console.log("Productos en el carrito:", cart.products);
+
       const productManager = new ProductManager();
+      const failedProducts = [];
+      const successfulProducts = [];
 
       for (const item of cart.products) {
         const product = await productManager.getProductById(item.product);
 
         if (!product) {
-          return res
-            .status(404)
-            .json({ error: `Producto ${item.product} no encontrado` });
+          console.error(`Producto ${item.product} no encontrado`);
+          failedProducts.push(item);
+          continue;
         }
 
         if (product.stock < item.quantity) {
-          return res.status(400).json({ error: "Stock insuficiente" });
+          console.error(
+            `Stock insuficiente para el producto ${JSON.stringify(
+              item.product
+            )}`
+          );
+          failedProducts.push(item);
+        } else {
+          successfulProducts.push(item);
+          const newStock = product.stock - item.quantity;
+          await productManager.updateProduct(item.product, { stock: newStock });
         }
-
-        const newStock = product.stock - item.quantity;
-        await productManager.updateProduct(item.product, { stock: newStock });
       }
 
-      if (!cart) {
-        return res.status(404).json({ error: "Carrito no encontrado" });
+      await cartModel.updateOne(
+        { _id: req.params.cid },
+        { products: failedProducts }
+      );
+
+      if (successfulProducts.length === 0) {
+        return res.status(400).json({
+          error: "No se pudo comprar ningun producto",
+          failedProducts,
+        });
       }
-      console.log("Productos en el carrito:", cart.products);
-      const totalAmount = cart.products.reduce((total, product) => {
-        console.log(
-          "Producto:",
-          product.product,
-          "Precio:",
-          product.product.price,
-          "Cantidad:",
-          product.quantity
-        );
+
+      const totalAmount = successfulProducts.reduce((total, product) => {
         return total + product.product.price * product.quantity;
       }, 0);
 
@@ -148,15 +162,21 @@ class CartController {
         code: uuidv4(),
         purchase_datetime: new Date(),
         amount: totalAmount,
-        purchaser: req.user.id,
+        purchaser: req.user.email,
       };
 
       console.log("Ticket Data justo antes de crear el ticket:", ticketData);
-      const ticketCreated = await ticketController.createTicket(
-        { body: ticketData },
-        res
-      );
+      const ticketCreated = await ticketController.createTicket({
+        body: ticketData,
+      });
       console.log("Ticket Creado:", ticketCreated);
+
+      res.json({
+        status: "success",
+        message: "Compra realizada con éxito",
+        ticket: ticketCreated,
+        failedProducts: failedProducts.length > 0 ? failedProducts : undefined,
+      });
     } catch (error) {
       console.error("Error específico al crear el ticket de compra:", error);
       res.status(500).json({ error: "Error al crear el ticket de compra" });

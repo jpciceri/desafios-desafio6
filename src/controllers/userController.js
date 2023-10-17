@@ -1,5 +1,6 @@
 import UserService from "../services/userServices.js";
 import UserDTO from "../dao/dto/user.dto.js"
+import UserResponse from "../dao/dto/user.response.dto.js"
 
 class UserController {
   constructor() {
@@ -47,10 +48,15 @@ class UserController {
   }
 
   currentUser(req, res) {
-    if (req.session.user) { 
-      return res.send({ status: "OK", payload: new UserDTO(req.session.user) });
+    if (req.session.user) {
+      return res.send({
+        status: "OK",
+        payload: new UserResponse(req.session.user),
+      });
     } else {
-      return res.status(401).send({ status: "Error", message: "No authorized" });
+      return res
+        .status(401)
+        .send({ status: "Error", message: "No authorized" });
     }
   }
 }

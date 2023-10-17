@@ -73,7 +73,10 @@ app.use('/email', emailRouter);
 
 const PM = new ProductManager();
 
-mongoose.connect(process.env.MONGO_URL);
+mongoose.connect(process.env.MONGO_URL,{
+  useNewUrlParser :true,
+  useUnifiedTopology: true,
+});
 
 
 

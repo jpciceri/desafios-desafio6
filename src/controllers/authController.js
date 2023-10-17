@@ -23,6 +23,10 @@ class AuthController {
       role: userData.user.role,
     };
     }
+    
+    console.log("Full user data object:", userData.user);
+
+    console.log("Assigned session:", req.session); 
 
     res.cookie('coderCookieToken', userData.token, { httpOnly: true, secure: false });
   
