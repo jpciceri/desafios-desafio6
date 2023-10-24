@@ -19,6 +19,7 @@ import cookieParser from "cookie-parser";
 import { MONGO_URL, SECRET_KEY_SESSION, PORT } from "./src/config/config.js";
 import cors from "cors"
 import emailRouter from "./src/routes/email.routes.js";
+import mockingRouter from "./src/mocking/mock.router.js";
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -70,6 +71,7 @@ app.use("/api/carts/", cartsRouter);
 app.use("/api/sessions/", sessionsRouter);
 app.use("/", viewsRouter);
 app.use('/email', emailRouter);
+app.use('/mockingproducts', mockingRouter);
 
 const PM = new ProductManager();
 

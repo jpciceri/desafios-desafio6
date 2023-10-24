@@ -1,43 +1,62 @@
 import ProductService from "../services/productService.js";
 import { socketServer } from "../../app.js";
+import CustomError from "../services/errors/CustomError.js";
+import { generateProductErrorInfo } from "../services/errors/messages/product-error.js";
+import mongoose from "mongoose";
 
 class ProductController {
   constructor() {
     this.productService = new ProductService();
   }
-
   async getProducts(req, res) {
     try {
       const products = await this.productService.getProducts(req.query);
       res.send(products);
     } catch (error) {
-      res
-        .status(500)
-        .send({ status: "error", message: "Error fetching products." });
-      console.log(error);
+      const productError = new CustomError({
+        name: "Product Fetch Error",
+        message: "Error fetching products.",
+        code: 500,
+        cause: error.message,
+      });
+      console.error(productError);
+      res.status(productError.code).send({
+        status: "error",
+        message: "Error fetching products.",
+      });
     }
   }
 
-  async getProductById(req, res) {
+  async getProductById(req, res, next) {
     try {
       const pid = req.params.pid;
       console.log("Product ID:", pid);
-      const product = await this.productService.getProductById(pid);
-      if (product) {
-        res.json(product);
-        return;
-      } else {
-        res
-          .status(404)
-          .send({ status: "error", message: "Product not found." });
-        return;
+
+      if (!mongoose.Types.ObjectId.isValid(pid)) {
+        throw new CustomError({
+          name: "Invalid ID Error",
+          message: "El ID del producto proporcionado no es válido",
+          code: 400,
+          cause: generateProductErrorInfo(pid),
+        });
       }
+
+      const product = await this.productService.getProductById(pid);
+
+      if (!product) {
+        throw new CustomError({
+          name: "Product Not Found Error",
+          message: generateProductErrorInfo(pid),
+          code: 404,
+        });
+      }
+
+      res.status(200).json({
+        status: "success",
+        data: product,
+      });
     } catch (error) {
-      console.error("Error fetching product by id:", error);
-      res
-        .status(500)
-        .send({ status: "error", message: "Error fetching product by id." });
-      return;
+      next(error);
     }
   }
 
@@ -207,25 +226,48 @@ class ProductController {
     try {
       const pid = req.params.pid;
 
+      if (!mongoose.Types.ObjectId.isValid(pid)) {
+        console.log("ID del producto no válido");
+        res.status(400).send({
+          status: "error",
+          message: "ID del producto no válido",
+        });
+        return;
+      }
+
+      const product = await this.productService.getProductById(pid);
+
+      if (!product) {
+        console.log("Producto no encontrado");
+        res.status(404).send({
+          status: "error",
+          message: "Producto no encontrado",
+        });
+        return;
+      }
+
       const wasDeleted = await this.productService.deleteProduct(pid);
 
       if (wasDeleted) {
+        console.log("Producto eliminado exitosamente");
         res.send({
           status: "ok",
-          message: "El Producto se eliminó correctamente!",
+          message: "Producto eliminado exitosamente",
         });
         socketServer.emit("product_deleted", { _id: pid });
       } else {
+        console.log("Error eliminando el producto");
         res.status(500).send({
           status: "error",
-          message: "Error! No se pudo eliminar el Producto!",
+          message: "Error eliminando el producto",
         });
       }
     } catch (error) {
       console.error(error);
-      res
-        .status(500)
-        .send({ status: "error", message: "Internal server error." });
+      res.status(500).send({
+        status: "error",
+        message: "Error interno del servidor",
+      });
     }
   }
 }
