@@ -3,12 +3,17 @@ const loginUser = async () => {
     let password = document.getElementById("password").value;
 
     try {
-        const response = await fetch(`/api/sessions/login?user=${email}&pass=${password}`, {
-            credentials: 'include'
+        const response = await fetch("/api/sessions/login/", {
+          method: "POST",
+          headers: { "Content-type": "application/json; charset=UTF-8" },
+          body: JSON.stringify({ email: email, password: password }),
         });
+        // const response = await fetch(`/api/sessions/login?user=${email}&pass=${password}`, {
+        //     credentials: 'include'
+        
         
         if (!response.ok) {
-            console.log(`Error en la respuesta: ${response.status}`);
+            throw new Error(`Error en la respuesta: ${response.status}`);
             return;
         }
         
@@ -24,7 +29,7 @@ const loginUser = async () => {
     } catch (error) {
         console.log('Error en la petición', error);
     }
-}
+};
 
 document.getElementById("btnLogIn").onclick = loginUser;
 //-------------------------------------------------------

@@ -10,7 +10,7 @@ program
     .option('-d', 'Variable para debug', false)
     .option('-p <port>', 'Puerto del servidor', 8080)
     .option('--mode <mode>', 'Modo de trabajo', 'develop')
-program.parse();
+    .parse(process.argv);
 
 console.log("Mode Option: ", program.opts().mode);
 

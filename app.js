@@ -21,14 +21,14 @@ import cors from "cors"
 import emailRouter from "./src/routes/email.routes.js";
 import mockingRouter from "./src/mocking/mock.router.js";
 import { addLogger, devLogger} from "./src/config/logger.js";
-import cluster from 'cluster';
-import { cpus } from 'os';
+//import cluster from 'cluster';
+//import { cpus } from 'os';
 import loggerRouter from "./src/routes/logger.routes.js"
-import { error } from "console";
 
 
-const numerodeprocesadores = cpus().length; 
-console.log(numerodeprocesadores)
+
+//const numerodeprocesadores = cpus().length; 
+//console.log(numerodeprocesadores)
 
 const app = express();
 const port = ENV_CONFIG.PORT || 8080;
@@ -83,6 +83,14 @@ app.use("/", viewsRouter);
 app.use('/email', emailRouter);
 app.use('/mockingproducts', mockingRouter);
 app.get("/logger", loggerRouter);
+app.get('/loggerTest', (req, res) => {
+  devLogger.info('Esto es un registro de prueba.');
+  devLogger.error('Esto es un error de prueba.');
+  res.
+ 
+send('Registros de prueba generados en el servidor.');
+});
+
 
 const PM = new ProductManager();
 

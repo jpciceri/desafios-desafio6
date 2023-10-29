@@ -1,4 +1,4 @@
-import winston from "winston";
+import winston, {transports} from "winston";
 import {ENV_CONFIG} from "./config.js"
 
 const customLevelsOptions = {
