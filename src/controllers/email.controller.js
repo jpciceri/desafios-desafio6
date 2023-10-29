@@ -1,14 +1,15 @@
 import nodemailer from "nodemailer";
-import { EMAIL_PASS, EMAIL_USER } from "../config/config.js"
+import { ENV_CONFIG } from "../config/config.js"
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
   port: 587,
   auth: {
-    user: EMAIL_USER,
-    pass: EMAIL_PASS,
+    user: ENV_CONFIG.EMAIL_USER,
+    pass: ENV_CONFIG.EMAIL_PASS,
   },
 });
+
 
 transporter.verify(function (error, success) {
   if (error) {
@@ -19,16 +20,16 @@ transporter.verify(function (error, success) {
 });
 
 const mailOptions = {
-  from: "Coder Test " + EMAIL_USER,
-  to: EMAIL_USER,
+  from: "Coder Test " + ENV_CONFIG.EMAIL_USER,
+  to: ENV_CONFIG.EMAIL_USER,
   subject: "Correo de prueba Coderhouse Programacion Backend.",
   html: "<div><h1>Esto es un Test de envio de correos con Nodemailer!</h1></div>",
   attachments: [],
 };
 
 const mailOptionsWithAttachments = {
-  from: "Coder Test " + EMAIL_USER,
-  to: EMAIL_USER,
+  from: "Coder Test " + ENV_CONFIG.EMAIL_USER,
+  to: ENV_CONFIG.EMAIL_USER,
   subject: "Correo de prueba Coderhouse Programacion Backend.",
   html: `<div>
               <h1>Esto es un Test de envio de correos con Nodemailer!</h1>
@@ -38,7 +39,7 @@ const mailOptionsWithAttachments = {
   attachments: [
     {
       filename: "Meme de Programacion",
-    
+      // path: __dirname + "/public/images/meme.png",
       cid: "meme",
     },
   ],
@@ -48,14 +49,14 @@ export const sendEmail = (req, res) => {
   try {
     let result = transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
-        console.log(error);
+        req.logger.error(error);
         res.status(400).send({ message: "Error", payload: error });
       }
-      console.log("Message sent: %s", info.messageId);
+      req.logger.info("Message sent: %s", info.messageId);
       res.send({ message: "Success!", payload: info });
     });
   } catch (error) {
-    console.error(error);
+    req.logger.error(error);
     res
       .status(500)
       .send({

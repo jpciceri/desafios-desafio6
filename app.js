@@ -16,16 +16,24 @@ import MongoStore from "connect-mongo";
 import passport from "passport";
 import initializePassport from "./src/config/passport.config.js";
 import cookieParser from "cookie-parser";
-import { MONGO_URL, SECRET_KEY_SESSION, PORT } from "./src/config/config.js";
+import { ENV_CONFIG } from "./src/config/config.js";
 import cors from "cors"
 import emailRouter from "./src/routes/email.routes.js";
 import mockingRouter from "./src/mocking/mock.router.js";
+import { addLogger, devLogger} from "./src/config/logger.js";
+import cluster from 'cluster';
+import { cpus } from 'os';
+import loggerRouter from "./src/routes/logger.routes.js"
+
+
+const numerodeprocesadores = cpus().length; 
+console.log(numerodeprocesadores)
 
 const app = express();
-const port = process.env.PORT || 8080;
+const port = ENV_CONFIG.PORT || 8080;
 
 const httpServer = app.listen(port, () => {
-  console.log("Servidor escuchando en puerto " + port);
+  devLogger.info("Servidor escuchando en puerto " + port);
 });
 export const socketServer = new Server(httpServer);
 
@@ -49,6 +57,7 @@ app.use(
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(addLogger);
 app.use(session({
   secret: process.env.SECRET_KEY_SESSION,
   resave: false,
@@ -72,6 +81,7 @@ app.use("/api/sessions/", sessionsRouter);
 app.use("/", viewsRouter);
 app.use('/email', emailRouter);
 app.use('/mockingproducts', mockingRouter);
+app.get("/logger", loggerRouter);
 
 const PM = new ProductManager();
 
