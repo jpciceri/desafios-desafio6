@@ -24,6 +24,7 @@ import { addLogger, devLogger} from "./src/config/logger.js";
 import cluster from 'cluster';
 import { cpus } from 'os';
 import loggerRouter from "./src/routes/logger.routes.js"
+import { error } from "console";
 
 
 const numerodeprocesadores = cpus().length; 
@@ -93,32 +94,32 @@ mongoose.connect(process.env.MONGO_URL,{
 
 
 mongoose.connection.on("connected", () => {
-  console.log("Conectado a MongoDB");
+  devLogger.info("Conectado a MongoDB");
 });
 
 mongoose.connection.on("error", (err) => {
-  console.error("Error conectando a MongoDB:", err);
+  devLogger.error("Error conectando a MongoDB:", err);
 });
 
 socketServer.on("connection", async (socket) => {
-  console.log("Un cliente se ha conectado");
+  req.logger.info("Un cliente se ha conectado");
 
   const allProducts = await PM.getProducts();
-  socket.emit("initial_products", allProducts);
+  socket.emit("initial_products", allProducts.payload);
 
   const previousMessages = await messageModel.find().sort({ timestamp: 1 });
   socket.emit("previous messages", previousMessages);
 
   socket.on("message", (data) => {
-    console.log("Mensaje recibido del cliente:", data);
+    req.logger.info("Mensaje recibido del cliente:", data);
   });
 
   socket.on("socket_individual", (data) => {
-    console.log("Evento 'socket_individual' recibido:", data);
+    req.logger.info("Evento 'socket_individual' recibido:", data);
   });
 
   socket.on("chat message", async (message) => {
-    console.log("Received message object:", JSON.stringify(message, null, 2));
+    req.logger.info("Received message object:", JSON.stringify(message, null, 2));
 
     const newMessage = new messageModel({
       user: message.user,

@@ -13,10 +13,10 @@ class AuthController {
 
       const { email, password } = req.body;
       const userData = await this.authService.login(email, password);
-      console.log("User data retrieved:", userData);
+      req.logger.info("User data retrieved:", userData);
 
       if (!userData || !userData.user) {
-        console.log("Invalid credentials");
+        req.logger.error("Invalid credentials");
         const customError = new CustomError({
           name: "Authentication Error",
           message: "Invalid credentials",
@@ -39,7 +39,7 @@ class AuthController {
         };
     }
 
-      console.log("Full user data object:", userData.user);
+    req.logger.info("Full user data object:", userData.user);
 
       console.log("Assigned session:", req.session);
 
@@ -57,7 +57,7 @@ class AuthController {
           redirect: "/products",
         });
     } catch (error) {
-      console.error("An error occurred:", error);
+      req.logger.error("An error occurred:", error);
       return next(error);
     }
   }

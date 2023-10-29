@@ -30,7 +30,7 @@ class ProductController {
   async getProductById(req, res, next) {
     try {
       const pid = req.params.pid;
-      console.log("Product ID:", pid);
+      req.logger.info("Product ID:", pid);
 
       if (!mongoose.Types.ObjectId.isValid(pid)) {
         throw new CustomError({
@@ -143,7 +143,7 @@ class ProductController {
       });
 
       if (wasAdded && wasAdded._id) {
-        console.log("Producto añadido correctamente:", wasAdded);
+        req.logger.info("Producto añadido correctamente:", wasAdded);
         res.send({
           status: "ok",
           message: "El Producto se agregó correctamente!",
@@ -161,7 +161,7 @@ class ProductController {
         });
         return;
       } else {
-        console.log("Error al añadir producto, wasAdded:", wasAdded);
+        req.logger.error("Error al añadir producto, wasAdded:", wasAdded);
         res.status(500).send({
           status: "error",
           message: "Error! No se pudo agregar el Producto!",
@@ -169,7 +169,7 @@ class ProductController {
         return;
       }
     } catch (error) {
-      console.error("Error en addProduct:", error, "Stack:", error.stack);
+      req.logger.error("Error en addProduct:", error, "Stack:", error.stack);
       res
         .status(500)
         .send({ status: "error", message: "Internal server error." });
@@ -215,7 +215,7 @@ class ProductController {
         });
       }
     } catch (error) {
-      console.error(error);
+      req.logger.error(error);
       res
         .status(500)
         .send({ status: "error", message: "Internal server error." });
@@ -227,7 +227,7 @@ class ProductController {
       const pid = req.params.pid;
 
       if (!mongoose.Types.ObjectId.isValid(pid)) {
-        console.log("ID del producto no válido");
+        req.logger.error("ID del producto no válido");
         res.status(400).send({
           status: "error",
           message: "ID del producto no válido",
@@ -238,7 +238,7 @@ class ProductController {
       const product = await this.productService.getProductById(pid);
 
       if (!product) {
-        console.log("Producto no encontrado");
+        req.logger.error("Producto no encontrado");
         res.status(404).send({
           status: "error",
           message: "Producto no encontrado",
@@ -249,14 +249,14 @@ class ProductController {
       const wasDeleted = await this.productService.deleteProduct(pid);
 
       if (wasDeleted) {
-        console.log("Producto eliminado exitosamente");
+        req.logger.info("Producto eliminado exitosamente");
         res.send({
           status: "ok",
           message: "Producto eliminado exitosamente",
         });
         socketServer.emit("product_deleted", { _id: pid });
       } else {
-        console.log("Error eliminando el producto");
+        req.logger.error("Error eliminando el producto");
         res.status(500).send({
           status: "error",
           message: "Error eliminando el producto",
