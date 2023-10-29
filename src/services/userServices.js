@@ -19,7 +19,7 @@ class UserService {
       }
 
       const role =
-        email == ENV_CONFIG.adminEmail && password === ENV_CONFIG.adminPassword ? "admin" : "user";
+        email == ENV_CONFIG.ADMIN_EMAIL && password === ENV_CONFIG.ADMIN_PASSWORD ? "admin" : "user";
 
       const cartId = cartResponse.id;
       console.log("Cart ID:", cartId);

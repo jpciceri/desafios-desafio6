@@ -1,1 +1,3 @@
 warning: Prueba de log level warning!
+error: No session found, redirecting to /login
+warning: Usuario no autenticado, procediendo...

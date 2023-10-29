@@ -102,7 +102,7 @@ mongoose.connection.on("error", (err) => {
 });
 
 socketServer.on("connection", async (socket) => {
-  req.logger.info("Un cliente se ha conectado");
+  devLogger.info("Un cliente se ha conectado");
 
   const allProducts = await PM.getProducts();
   socket.emit("initial_products", allProducts.payload);
@@ -111,15 +111,15 @@ socketServer.on("connection", async (socket) => {
   socket.emit("previous messages", previousMessages);
 
   socket.on("message", (data) => {
-    req.logger.info("Mensaje recibido del cliente:", data);
+    devLogger.info("Mensaje recibido del cliente:", data);
   });
 
   socket.on("socket_individual", (data) => {
-    req.logger.info("Evento 'socket_individual' recibido:", data);
+    devLogger.info("Evento 'socket_individual' recibido:", data);
   });
 
   socket.on("chat message", async (message) => {
-    req.logger.info("Received message object:", JSON.stringify(message, null, 2));
+    devLogger.info("Received message object:", JSON.stringify(message, null, 2));
 
     const newMessage = new messageModel({
       user: message.user,

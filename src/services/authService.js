@@ -6,7 +6,7 @@ import { ENV_CONFIG } from '../config/config.js';
 class AuthService {
   constructor() {
     this.userManager = new UserManager();
-    this.secretKey = ENV_CONFIG.jwtSecret;  
+    this.secretKey = ENV_CONFIG.JWT_SECRET;  
   }
 
   async login(email, password) {
