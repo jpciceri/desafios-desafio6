@@ -4,3 +4,9 @@ warning: Usuario no autenticado, procediendo...
 warning: Usuario no autenticado, procediendo...
 warning: Usuario no autenticado, procediendo...
 error: Esto es un error de prueba.
+error: Esto es un error de prueba.
+warning: Esto es un warning de prueba.
+fatal: Esto es un fatal de prueba.
+error: Esto es un error de prueba.
+warning: Esto es un warning de prueba.
+fatal: Esto es un fatal de prueba.
