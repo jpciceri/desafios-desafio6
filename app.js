@@ -86,6 +86,7 @@ app.get("/logger", loggerRouter);
 app.get('/loggerTest', (req, res) => {
   devLogger.info('Esto es un registro de prueba.');
   devLogger.error('Esto es un error de prueba.');
+  devLogger.debug('Esto es un debug de prueba.');
   res.
  
 send('Registros de prueba generados en el servidor.');
