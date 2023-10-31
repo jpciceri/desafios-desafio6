@@ -2,25 +2,36 @@ import express from "express";
 import Handlebars from "handlebars";
 import expressHandlebars from "express-handlebars";
 import __dirname from "./utils.js";
-import { Server } from "socket.io";
+import {
+  Server
+} from "socket.io";
 import mongoose from "mongoose";
 import cartsRouter from "./src/routes/cart.routes.js";
 import productsRouter from "./src/routes/product.routes.js";
 import viewsRouter from "./src/routes/views.routes.js";
-import { messageModel } from "./src/dao/models/message.model.js";
+import {
+  messageModel
+} from "./src/dao/models/message.model.js";
 import ProductManager from "./src/dao/ProductManager.js";
-import { allowInsecurePrototypeAccess } from "@handlebars/allow-prototype-access";
+import {
+  allowInsecurePrototypeAccess
+} from "@handlebars/allow-prototype-access";
 import sessionsRouter from "./src/routes/sessions.routes.js";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import passport from "passport";
 import initializePassport from "./src/config/passport.config.js";
 import cookieParser from "cookie-parser";
-import { ENV_CONFIG } from "./src/config/config.js";
+import {
+  ENV_CONFIG
+} from "./src/config/config.js";
 import cors from "cors"
 import emailRouter from "./src/routes/email.routes.js";
 import mockingRouter from "./src/mocking/mock.router.js";
-import { addLogger, devLogger} from "./src/config/logger.js";
+import {
+  addLogger,
+  devLogger
+} from "./src/config/logger.js";
 //import cluster from 'cluster';
 //import { cpus } from 'os';
 import loggerRouter from "./src/routes/logger.routes.js"
@@ -52,23 +63,30 @@ app.use(express.static(__dirname));
 app.use(
   cors({
     credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE"], 
+    methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({
+  extended: true
+}));
 app.use(addLogger);
 app.use(session({
   secret: process.env.SECRET_KEY_SESSION,
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: false },
+  cookie: {
+    secure: false
+  },
   store: MongoStore.create({
     mongoUrl: process.env.MONGO_URL,
-    mongoOptions:{useNewUrlParser:true, useUnifiedTopology:true},
+    mongoOptions: {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    },
     collectionName: "sessions",
-})
+  })
 }));
 app.use(cookieParser());
 
@@ -84,21 +102,22 @@ app.use('/email', emailRouter);
 app.use('/mockingproducts', mockingRouter);
 app.get("/logger", loggerRouter);
 app.get('/loggerTest', (req, res) => {
-  devLogger.info('Esto es un registro de prueba.');
-  devLogger.error('Esto es un error de prueba.');
-  devLogger.debug('Esto es un debug de prueba.');
-  devLogger.warning('Esto es un warning de prueba.');
   devLogger.fatal('Esto es un fatal de prueba.');
+  devLogger.error('Esto es un error de prueba.');
+  devLogger.warn('Esto es un warning de prueba.');
+  devLogger.info('Esto es un registro de prueba.');
+  devLogger.http('Esto es un http trace de prueba.');
+  devLogger.debug('Esto es un debug de prueba.');
   res.
- 
-send('Registros de prueba generados en el servidor.');
+
+  send('Registros de prueba generados en el servidor.');
 });
 
 
 const PM = new ProductManager();
 
-mongoose.connect(process.env.MONGO_URL,{
-  useNewUrlParser :true,
+mongoose.connect(process.env.MONGO_URL, {
+  useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
@@ -118,7 +137,9 @@ socketServer.on("connection", async (socket) => {
   const allProducts = await PM.getProducts();
   socket.emit("initial_products", allProducts.payload);
 
-  const previousMessages = await messageModel.find().sort({ timestamp: 1 });
+  const previousMessages = await messageModel.find().sort({
+    timestamp: 1
+  });
   socket.emit("previous messages", previousMessages);
 
   socket.on("message", (data) => {
