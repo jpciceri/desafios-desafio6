@@ -245,6 +245,23 @@ class ProductController {
         });
         return;
       }
+      
+      if (
+        !req.user ||
+        (req.user.role !== "admin" &&
+          (!product.owner ||
+            req.user._id.toString() !== product.owner.toString()))
+      ) {
+        req.logger.error(
+          "Operación no permitida: el usuario no tiene derechos para eliminar este producto o el producto no tiene propietario definido."
+        );
+        res.status(403).send({
+          status: "error",
+          message:
+            "No tiene permiso para eliminar este producto o producto no tiene propietario.",
+        });
+        return;
+      }
 
       const wasDeleted = await this.productService.deleteProduct(pid);
 

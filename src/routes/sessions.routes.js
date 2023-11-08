@@ -6,8 +6,10 @@ import jwt from "jsonwebtoken";
 import UserController from "../controllers/userController.js";
 import AuthController from "../controllers/authController.js";
 import errorHandler from "../middlewares/errorHandler.js"
+import bodyParser from "body-parser";
 
 const PRIVATE_KEY = "S3CR3T0";
+
 
 const router = express.Router();
 const UM = new UserManager();
@@ -17,8 +19,6 @@ const authController = new AuthController();
 router.post("/login", (req, res, next) => authController.login(req, res, next));
 
 router.post("/register", userController.register.bind(userController));
-
-router.get("/restore", userController.restorePassword.bind(userController));
 
 router.get(
   "/github",
@@ -36,10 +36,24 @@ router.get(
 );
 router.post("/logout", (req, res) => authController.logout(req, res));
 
-router.get("/current", passportCall("jwt"), authorization("user"), (req, res) => {
-  console.log(req.cookies); 
-  userController.currentUser(req, res);
-});
+router.get(
+  "/current",
+  passportCall("jwt"),
+  authorization("user"),
+  (req, res) => {
+    userController.currentUser(req, res);
+  }
+);
+
+router.use(bodyParser.urlencoded({ extended: true }));
+
+router.post("/restore-password", async (req, res) =>
+  authController.restorePassword(req, res)
+);
+
+router.post("/reset-password/:token", async (req, res) =>
+  authController.resetPassword(req, res)
+);
 
 router.use(errorHandler);
 

@@ -2,44 +2,26 @@ import express from "express";
 import Handlebars from "handlebars";
 import expressHandlebars from "express-handlebars";
 import __dirname from "./utils.js";
-import {
-  Server
-} from "socket.io";
+import {  Server} from "socket.io";
 import mongoose from "mongoose";
 import cartsRouter from "./src/routes/cart.routes.js";
 import productsRouter from "./src/routes/product.routes.js";
 import viewsRouter from "./src/routes/views.routes.js";
-import {
-  messageModel
-} from "./src/dao/models/message.model.js";
+import {  messageModel} from "./src/dao/models/message.model.js";
 import ProductManager from "./src/dao/ProductManager.js";
-import {
-  allowInsecurePrototypeAccess
-} from "@handlebars/allow-prototype-access";
+import { allowInsecurePrototypeAccess} from "@handlebars/allow-prototype-access";
 import sessionsRouter from "./src/routes/sessions.routes.js";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import passport from "passport";
 import initializePassport from "./src/config/passport.config.js";
 import cookieParser from "cookie-parser";
-import {
-  ENV_CONFIG
-} from "./src/config/config.js";
+import {ENV_CONFIG} from "./src/config/config.js";
 import cors from "cors"
 import emailRouter from "./src/routes/email.routes.js";
 import mockingRouter from "./src/mocking/mock.router.js";
-import {
-  addLogger,
-  devLogger
-} from "./src/config/logger.js";
-//import cluster from 'cluster';
-//import { cpus } from 'os';
+import { addLogger, devLogger} from "./src/config/logger.js";
 import loggerRouter from "./src/routes/logger.routes.js"
-
-
-
-//const numerodeprocesadores = cpus().length; 
-//console.log(numerodeprocesadores)
 
 const app = express();
 const port = ENV_CONFIG.PORT || 8080;

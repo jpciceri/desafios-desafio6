@@ -18,7 +18,7 @@ productsRouter.get(
 productsRouter.post(
   "/",
   passportCall("jwt"),
-  authorization(["admin"]),
+  authorization(["admin", "premium"]),
   productController.addProduct.bind(productController)
 );
 productsRouter.put(
@@ -30,7 +30,7 @@ productsRouter.put(
 productsRouter.delete(
   "/:pid",
   passportCall("jwt"),
-  authorization(["admin"]),
+  authorization(["admin", "premium"]),
   productController.deleteProduct.bind(productController)
 );
 

@@ -1,7 +1,8 @@
 export default class UserResponse{
     constructor(user){
-        this.alias = user.full_name,
-        this.email = user.email
+        this.firstName = user.first_name;
+        this.lastName = user.last_name;
+        this.email = user.email;
     }
 
 }

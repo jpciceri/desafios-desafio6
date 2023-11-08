@@ -8,8 +8,6 @@ const loginUser = async () => {
           headers: { "Content-type": "application/json; charset=UTF-8" },
           body: JSON.stringify({ email: email, password: password }),
         });
-        // const response = await fetch(`/api/sessions/login?user=${email}&pass=${password}`, {
-        //     credentials: 'include'
         
         
         if (!response.ok) {
@@ -32,13 +30,3 @@ const loginUser = async () => {
 };
 
 document.getElementById("btnLogIn").onclick = loginUser;
-//-------------------------------------------------------
-//     const data = await response.json();
-//     console.log(data);
-
-//     if (data.status === "OK") {
-//         location.href = "/products";
-//     }
-// }
-
-// document.getElementById("btnLogIn").onclick = loginUser;

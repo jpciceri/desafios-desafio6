@@ -1,7 +1,5 @@
 import UserManager from "../dao/UserManager.js";
-import {
-  ENV_CONFIG
-} from "../config/config.js";
+import { ENV_CONFIG} from "../config/config.js";
 import CartManager from "../dao/cartManager.js";
 
 class UserService {
@@ -18,8 +16,11 @@ class UserService {
         return { status: "error", message: "Error creating cart" };
       }
 
-      const role =
-        email == ENV_CONFIG.ADMIN_EMAIL && password === ENV_CONFIG.ADMIN_PASSWORD ? "admin" : "user";
+      const role = email === ENV_CONFIG.adminEmail && password === ENV_CONFIG.adminPassword
+      ? "admin"
+      : email === ENV_CONFIG.premiumEmail && password === ENV_CONFIG.premiumPassword
+      ? "premium"
+      : "user";
 
       const cartId = cartResponse.id;
       console.log("Cart ID:", cartId);
