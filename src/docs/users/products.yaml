@@ -1,0 +1,127 @@
+paths:
+  /products:
+    get:
+      summary: Obtener todos los productos
+      responses:
+        '200':
+          description: Lista de productos
+          content:
+            application/json:
+              example:
+                - id: 64e79c0c5fe18e2c6a9cec30
+                  title: DIGITAL SERIE 5000
+                  description: Este es el producto 1
+                  price: 1000
+                  code: P1
+                  stock: 1000
+                  category: Hombre 
+                  thumbnails: https://www.casio.com/content/dam/casio/product-info/locales/latin/es-ar/timepiece/product/watch/D/DW/DW5/dw-5040rx-7/assets/DW-5040RX-7.png.transform/main-visual-pc/image.png
+                - id: 64e7a9ef0bb635dcbb26f50b
+                  title: DIGITAL MUJERES 5600
+                  description: Este es el producto 2
+                  price: 2000
+                  code: P2
+                  stock: 2000
+                  category: Mujer 
+                  thumbnails:
+                - id: 64e7ab330bb635dcbb26f512
+                  title: DIGITAL MUJERES 5600 A
+                  description: Este es el producto 3
+                  price: 3000
+                  code: P3
+                  stock: 3000
+                  category: Mujer 
+                  thumbnails:
+                - id: 64e7b17d0bb635dcbb26f51d
+                  title: DIGITAL MUJERES 5600 B
+                  description: Este es el producto 4
+                  price: 4000
+                  code: P4
+                  stock: 4000
+                  category: Mujer 
+                  thumbnails:
+                - id: 64f50a5657f5711805bdda8c
+                  title: GA-2100GB-1A
+                  description: Este es el producto 5
+                  price: 5000
+                  code: P5
+                  stock: 5000
+                  category: Hombre 
+                  thumbnails:
+                - id: 64f50b1357f5711805bdda8d
+                  title: GA-2100SB-1A
+                  description: Este es el producto 6
+                  price: 6000
+                  code: P6
+                  stock: 6000
+                  category: Hombre 
+                  thumbnails:
+                - id: 64f50b9657f5711805bdda8f
+                  title: GA-2100P-1A
+                  description: Este es el producto 7
+                  price: 7000
+                  code: P7
+                  stock: 1000
+                  category: Hombre 
+                  thumbnails:
+                  
+  /products/{productId}:
+    get:
+      summary: Obtener detalles de un producto
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          description: ID del producto
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Detalles del producto
+          content:
+            application/json:
+              example:
+                id: 64e79c0c5fe18e2c6a9cec30
+                title: DIGITAL SERIE 5000
+                price: 1000
+/carts/{cartId}/products/{productId}:
+    get:
+      summary: Obtener contenido del carrito
+      responses:
+        '200':
+          description: Contenido del carrito
+          content:
+            application/json:
+              example:
+                productos:
+                  - id: 64e79c0c5fe18e2c6a9cec30
+                    title: DIGITAL SERIE 5000
+                    cantidad: 2
+                  - id: 64f50b9657f5711805bdda8f
+                    title: GA-2100P-1A
+                    cantidad: 1
+    post:
+      summary: Agregar un producto al carrito
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              productId: 1
+              cantidad: 3
+      responses:
+        '200':
+          description: Producto agregado al carrito
+          content:
+            application/json:
+              example:
+                mensaje: "Producto agregado al carrito correctamente"
+    delete:
+      summary: Vaciar el carrito
+      responses:
+        '200':
+          description: Carrito vaciado
+          content:
+            application/json:
+              example:
+                mensaje: "Carrito vaciado correctamente"

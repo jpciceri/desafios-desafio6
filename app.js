@@ -21,10 +21,31 @@ import cors from "cors"
 import emailRouter from "./src/routes/email.routes.js";
 import mockingRouter from "./src/mocking/mock.router.js";
 import { addLogger, devLogger} from "./src/config/logger.js";
-import loggerRouter from "./src/routes/logger.routes.js"
+import loggerRouter from "./src/routes/logger.routes.js";
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUIExpress from 'swagger-ui-express';
+
 
 const app = express();
 const port = ENV_CONFIG.PORT || 8080;
+
+const swaggerOptions = {
+  definition:{
+    openapi:'3.0.1',
+    info:{
+      title:"documentacion API casio",
+      description:"Documentacion del uso de las apis relacionadas"
+    }
+
+  },
+  apis:[
+  `./src/docs/**/*.yaml`
+  ]
+};
+
+const specs = swaggerJSDoc(swaggerOptions);
+
+
 
 const httpServer = app.listen(port, () => {
   devLogger.info("Servidor escuchando en puerto " + port);
@@ -41,6 +62,8 @@ app.engine(
 );
 app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
+//declaro endpoint swagger
+app.use('/apidocs',swaggerUIExpress.serve, swaggerUIExpress.setup(specs));
 app.use(express.static(__dirname));
 app.use(
   cors({
