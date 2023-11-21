@@ -1,5 +1,7 @@
 import dotenv from 'dotenv';
-import { Command} from 'commander';
+import {
+    Command
+} from 'commander';
 
 
 const program = new Command(); //Crea la instancia de comandos de commander.
@@ -14,9 +16,17 @@ console.log("Mode Option: ", program.opts().mode);
 
 const environment = program.opts().mode;
 
+let envPath;
+if (environment === "production") {
+    envPath = "./src/config/.env.production";
+} else if (environment === "test") {
+    envPath = "./src/config/.env.test";
+} else {
+    envPath = "./src/config/.env.development";
+}
 
 dotenv.config({
-    path: environment === "production" ? "./src/config/.env.production" : "./src/config/.env.development",
+    path: envPath
 });
 
 export const ENV_CONFIG = {

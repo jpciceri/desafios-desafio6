@@ -2,15 +2,10 @@ import passport from "passport";
 import jwt from "passport-jwt";
 import local from "passport-local";
 import userModel from "../dao/models/user.model.js";
-import {
-    createHash,
-    isValidPassword
-} from "../../utils.js";
+import { createHash, isValidPassword} from "../../utils.js";
 import GitHubStrategy from "passport-github2";
 import AuthService from "../services/authService.js";
-import {
-    ENV_CONFIG
-} from "../config/config.js";
+import { ENV_CONFIG} from "../config/config.js";
 
 
 const JWTStrategy = jwt.Strategy;
