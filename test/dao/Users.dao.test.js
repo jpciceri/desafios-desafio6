@@ -30,10 +30,13 @@ describe('Testing Users Dao', () => {
     it('El Dao debe agregar el usuario correctamente a la BD.', async function(){
         //Given 
         let mockUser = {
-            first_name: "Usuario de prueba 1",
-            last_name: "Apellido de prueba 1",
-            email : "correodeprueba1@gmail.com",
-            password : "123456"
+            first_name: "Usuario",
+            last_name: "Apellido",
+            email: "adminCoder@coder.com",
+            age: 30,
+            password: "1234jp",
+            role: "admin",
+            cart: "111aaa",
         };
 
         //Then
