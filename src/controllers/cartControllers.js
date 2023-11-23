@@ -12,23 +12,31 @@ class CartController {
   async createCart(req, res) {
     try {
       const newCart = await this.cartService.createCart();
-      res.send(newCart);
+      res.status(201).json({
+        status: "success",
+        message: "El Carrito se creó correctamente!",
+        cartId: newCart._id,
+        payload: newCart,
+      });
       req.logger.info("Cart created:", newCart);
     } catch (error) {
       res.status(500).send({
         status: "error",
         message: error.message,
       });
+      req.logger.error("Error creating cart:", error);
     }
   }
 
   async getCart(req, res) {
     try {
       const cart = await this.cartService.getCart(req.params.cid);
-      res.send({ products: cart.products });
+      res.json({
+        status: "success",
+        cart: cart,
+      });
       req.logger.info("Cart retrieved:", cart);
     } catch (error) {
-      console.log("hola en cart controller");
       res.status(400).send({
         status: "error",
         message: error.message,
@@ -159,8 +167,6 @@ class CartController {
         return total + product.product.price * product.quantity;
       }, 0);
 
-      console.log("Total Amount calculado:", totalAmount);
-
       const ticketData = {
         code: uuidv4(),
         purchase_datetime: new Date(),
@@ -168,12 +174,9 @@ class CartController {
         purchaser: req.user.email,
       };
 
-      console.log("Ticket Data justo antes de crear el ticket:", ticketData);
       const ticketCreated = await ticketController.createTicket({
         body: ticketData,
       });
-      console.log("Ticket Creado:", ticketCreated);
-
       res.json({
         status: "success",
         message: "Compra realizada con éxito",

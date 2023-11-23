@@ -106,6 +106,7 @@ app.use("/", viewsRouter);
 app.use('/email', emailRouter);
 app.use('/mockingproducts', mockingRouter);
 app.get("/logger", loggerRouter);
+app.use("/apidocs", swaggerUIExpress.serve, swaggerUIExpress.setup(specs));
 app.get('/loggerTest', (req, res) => {
   devLogger.fatal('Esto es un fatal de prueba.');
   devLogger.error('Esto es un error de prueba.');

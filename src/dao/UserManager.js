@@ -31,7 +31,8 @@ class UserManager {
                 email,
                 age,
                 password: hashedPassword,
-                role
+                role,
+                cart
             });
 
             console.log("User added!", user);

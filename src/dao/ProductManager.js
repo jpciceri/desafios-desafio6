@@ -79,13 +79,13 @@ class ProductManager {
       });
       let status = products ? "success" : "error";
       let prevLink = products.hasPrevPage
-        ? "http://localhost:8000/products?limit=" +
+        ? "http://localhost:8080/products?limit=" +
           limit +
           "&page=" +
           products.prevPage
         : null;
       let nextLink = products.hasNextPage
-        ? "http://localhost:8000/products?limit=" +
+        ? "http://localhost:8080/products?limit=" +
           limit +
           "&page=" +
           products.nextPage
@@ -132,6 +132,20 @@ class ProductManager {
       return false;
     }
   }
+
+  async updateProduct(pid, updateData) {
+    try {
+      const updatedProduct = await productModel.findByIdAndUpdate(pid, updateData, {
+        new: true,
+      });
+      return updatedProduct ? true : false;
+    } catch (error) {
+      console.error("Error updating product:", error);
+      return false;
+    }
+  }
+  
 }
+
 
 export default ProductManager;
