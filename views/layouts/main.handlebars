@@ -1,27 +1,40 @@
 <!doctype html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{title}}</title>
-    <link rel="stylesheet" href="/css/style.css">
-     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-  </head>
-  <body>
-                <div class="col-md-5 d-flex align-items-center justify-content-end">
-                <ul class="nav justify-content-end">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" href="/login">Login</a>
-                    </li>
-                    {{#if session.session.loggedIn}}
-                        <a class="nav-link text-dark" href="/logout">Logout</a>
-                    {{/if}}
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" href="/realtimeproducts">Real Time Products</a>
-                    </li>
-                </ul>
-            </div>
+    <link rel="stylesheet" href="/src/public/css/products.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="nav-home">
+        <ul class="nav justify-content-center">
+            <li class="nav-item">
+                <a class="nav-link text-dark" href="/login">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" href="/realtimeproducts">Real Time Products</a>
+            </li>
+            {{#if session.session.loggedIn}}
+            <liclass="nav-item">
+                <a class="nav-link text-dark" href="/logout">Logout</a>
+                {{/if}}
+                </li>
+        </ul>
+    </div>
+    <picture>
+        <img src="/src/images/banner-casio.avif" class="mx-auto d-block" loading="lazy" alt="ERIC HAZE"
+            style="width: auto; height: 588.2px; margin: 0px auto;" width="1920" height="816" aria-hidden="true">
+    </picture>
+
     {{{body}}}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-  </body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
+</body>
+
 </html>
