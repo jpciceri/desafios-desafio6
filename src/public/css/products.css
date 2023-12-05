@@ -1,20 +1,121 @@
-.agregar button{
+.agregar button {
     border: none;
     background-color: #151414;
-    color:#FFF;
+    color: #FFF;
     width: 150px;
     height: 40px;
 }
+
 body {
-    background-color:rgb(158, 153, 145)
+    background-color: rgb(158, 153, 145)
 }
+
 #btn-profile {
     margin-bottom: 10px;
 }
+
 #btn-productos {
     margin-bottom: 10px;
 }
 
 #cambiar-clave {
     margin-bottom: 10px;
+}
+
+.form--submit {
+    width: 50%;
+    padding: 0.625em;
+    border-radius: 5px;
+    color: white;
+    background-color: rgb(101, 85, 65);
+    border: 1px dashed rgb(101, 85, 65);
+    cursor: pointer;
+}
+
+.form--submit:hover {
+    color: rgb(101, 85, 65);
+    background-color: white;
+    border: 1px dashed rgb(101, 85, 65);
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.container-forms {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    margin-top: 20px;
+    width: 100%;
+    height: 100%;
+    gap: 5%;
+}
+
+#uploadForm {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 20px;
+    background-color: #F8F6F4;
+    padding: 5%;
+}
+
+#uploadForm input {
+    width: 100%;
+    height: 40px;
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid rgb(173, 173, 173);
+    border-radius: 30px;
+    margin: 10px 0;
+    color: black;
+    font-size: .8em;
+    font-weight: 500;
+    box-sizing: border-box;
+    padding-left: 30px;
+}
+
+#uploadPremiumForm {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 20px;
+    background-color: #F8F6F4;
+    padding: 5%;
+}
+
+#uploadPremiumForm input {
+    width: 100%;
+    height: 40px;
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid rgb(173, 173, 173);
+    border-radius: 30px;
+    margin: 10px 0;
+    color: black;
+    font-size: .8em;
+    font-weight: 500;
+    box-sizing: border-box;
+    padding-left: 30px;
+}
+
+.btn-uploads {
+    border: none;
+    background-color: #7D5A5A;
+    color: #FFF;
+    width: 150px;
+    height: 40px;
+    margin-top: 20px;
+
+}
+
+.cont-div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 20px;
+
 }

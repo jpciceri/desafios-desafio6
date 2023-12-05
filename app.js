@@ -24,6 +24,7 @@ import { addLogger, devLogger} from "./src/config/logger.js";
 import loggerRouter from "./src/routes/logger.routes.js";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUIExpress from 'swagger-ui-express';
+import usersRouter from "./src/routes/users.routes.js";
 
 
 const app = express();
@@ -102,6 +103,7 @@ initializePassport();
 app.use("/api/products/", productsRouter);
 app.use("/api/carts/", cartsRouter);
 app.use("/api/sessions/", sessionsRouter);
+app.use("/api/users", usersRouter);
 app.use("/", viewsRouter);
 app.use('/email', emailRouter);
 app.use('/mockingproducts', mockingRouter);
